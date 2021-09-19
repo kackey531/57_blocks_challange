@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Canvas Challenge</title>
+  </head>
+  <body>
+      <canvas id="canvas" width="500px" height="500" style="border: 1px solid grey;"
+       onclick="drawPolygon()">
+        Your browser doesn't support the HTML canvas tag.
+      </canvas>
+      <div style="width: 100%;">
+          <button onclick="closePolygon()"> SAVE (complete) </button>
+          <button onclick="clearScreen()"> REFRESH </button>   
+      </div>   
+    <script>
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+        var firstPoint = false;
+        function drawPolygon () {
+            var e = window.event;
+            var posX = e.clientX;
+            var posY = e.clientY;
+            if(!firstPoint){
+                ctx.beginPath();
+                ctx.moveTo(posX, posY);
+                firstPoint = {
+                    posX: posX,
+                    posY: posY
+                }
+            } else {
+                ctx.lineTo(posX, posY);
+                ctx.stroke();
+            }
+        }
+
+        function closePolygon () {
+            ctx.lineTo(firstPoint.posX, firstPoint.posY);
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        function clearScreen () {
+            ctx.closePath();
+            firstPoint = false;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    </script> 
+  </body>
+</html>
